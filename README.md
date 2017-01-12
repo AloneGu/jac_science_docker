@@ -10,4 +10,10 @@ contains popular python libs:
         scipy
         matplotlib
 
+        and others
+
 ## docker hub
+
+        https://hub.docker.com/r/jackling/jac_science_docker/
+
+        docker pull jackling/jac_science_docker
