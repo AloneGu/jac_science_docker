@@ -5,7 +5,7 @@ MAINTAINER jackling
 RUN DEBIAN_FRONTEND=noninteractive
 
 # copy source list
-#ADD apt.list /etc/apt/sources.list
+ADD apt.list /etc/apt/sources.list
 RUN cat /etc/apt/sources.list
 
 # Update apt-get local index
