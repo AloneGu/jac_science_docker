@@ -15,9 +15,13 @@ RUN apt-get -qq update
 RUN apt-get -y install python-pip
 
 # python lib
-RUN apt-get -y --force-yes install python-numpy python-scipy python-pandas python-matplotlib python-sklearn libmysqld-dev
-
+RUN apt-get -y --force-yes install python-mysqldb
+RUN pip install numpy==1.11.1
+RUN pip install pandas==0.18.1
+RUN easy_install lxml
+RUN easy_install scipy==0.18.1
+RUN easy_install scikit-learn==0.18.1
 RUN pip install xgboost==0.6a2
 RUN pip install Flask
 RUN pip install arrow
-RUN easy_install mysql-python
+
