@@ -12,7 +12,7 @@ RUN cat /etc/apt/sources.list
 RUN apt-get -qq update
 
 # install pip
-RUN apt-get -y install python-pip
+RUN apt-get -y install python-pip python-dev libxml2-dev libxslt-dev python-lxml libblas-dev liblapack-dev libatlas-base-dev gfortran
 
 # python lib
 RUN apt-get -y --force-yes install python-mysqldb
