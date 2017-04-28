@@ -1,27 +1,22 @@
-FROM ubuntu:14.04
-MAINTAINER jackling
+FROM alpine:3.5
 
+ENV LANG=en_US.UTF-8
+ENV TIME_ZONE=Asia/Shanghai
 
-RUN DEBIAN_FRONTEND=noninteractive
+# install requirements
+COPY requirements.txt *.sh *.py /app/
 
-# copy source list
-ADD apt.list /etc/apt/sources.list
-RUN cat /etc/apt/sources.list
+WORKDIR /app
+RUN set -ex && \
+    addgroup -g 1000 wsgi && \
+    adduser -u 1000 -G wsgi -s /bin/sh -H -D wsgi && \
+    echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/main' > /etc/apk/repositories && \
+    echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/community' >> /etc/apk/repositories
 
-# Update apt-get local index
-RUN apt-get -qq update
+RUN apk add --no-cache --update ca-certificates build-base linux-headers musl-dev tini && \
+    apk add --no-cache --update tzdata vim python3 py3-pip pcre-dev python3-dev libffi g++ gcc gfortran openblas-dev && \
+    ln -s /usr/include/locale.h /usr/include/xlocale.h
 
-# install pip
-RUN apt-get -y install python-pip python-dev libxml2-dev libxslt-dev python-lxml libblas-dev liblapack-dev libatlas-base-dev gfortran
+RUN pip3 install --upgrade pip
 
-# python lib
-RUN apt-get -y --force-yes install python-mysqldb
-RUN pip install numpy==1.11.1
-RUN pip install pandas==0.18.1
-RUN easy_install lxml
-RUN easy_install scipy==0.18.1
-RUN easy_install scikit-learn==0.18.1
-RUN pip install xgboost==0.6a2
-RUN pip install Flask
-RUN pip install arrow
-
+RUN pip3 install --no-cache-dir -i https://pypi.doubanio.com/simple --extra-index-url https://pypi.gizwits.com:1443/root/gizwits -r requirements.txt

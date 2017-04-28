@@ -1,1 +1,0 @@
-sudo docker build -t jackling/jac_science_docker .
